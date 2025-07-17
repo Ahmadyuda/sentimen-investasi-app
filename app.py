@@ -127,6 +127,3 @@ with st.expander("Lihat Daftar Lengkap Aplikasi yang Dianalisis"):
     # Ubah dictionary menjadi DataFrame pandas
     df_apps = pd.DataFrame(list(APPS_INFO.items()), columns=['Nama Aplikasi', 'ID Paket Google Play'])
     st.dataframe(df_apps, use_container_width=True, hide_index=True)
-
-print("\n--- Ranking Aplikasi Investasi Berdasarkan Rating Play Store ---")
-print(df_sorted_summary[['Ranking', 'title', 'score', 'ratings', 'installs', 'developer']].to_markdown(index=False))
