@@ -65,7 +65,35 @@ model, vectorizer = load_model_and_vectorizer()
 # --- KONFIGURASI HALAMAN UTAMA ---
 st.set_page_config(page_title="Analisis Aplikasi Investasi", page_icon="📈", layout="wide")
 
+# ... (setelah st.set_page_config) ...
 
+st.title("📈 Analisis Aplikasi Investasi di Play Store")
+
+# Buat tiga tab
+tab1, tab2, tab3 = st.tabs(["🔎 Analisis Sentimen", "🏆 Peringkat Aplikasi", "📊 Detail Data Latih"])
+
+with tab1:
+    st.header("Analisis Sentimen Ulasan")
+    st.markdown("Aplikasi ini menggunakan model **Support Vector Machine (SVM)** untuk menganalisis sentimen dari sebuah teks ulasan.")
+    # --- MASUKKAN SEMUA KODE DARI BAGIAN 1 ANDA DI SINI ---
+    # user_input = st.text_area(...)
+    # if st.button(...):
+    #     ...
+
+with tab2:
+    st.header("Peringkat Aplikasi Berdasarkan Data Play Store")
+    # --- MASUKKAN SEMUA KODE DARI BAGIAN 2 ANDA DI SINI ---
+    # df_ranked = get_app_rankings()
+    # if not df_ranked.empty:
+    #     st.dataframe(...)
+
+with tab3:
+    st.header("Detail Data Latih yang Digunakan Model")
+    # --- MASUKKAN SEMUA KODE DARI BAGIAN 3 ANDA DI SINI ---
+    # try:
+    #    df_latih = pd.read_csv(...)
+    #    st.dataframe(...)
+    #    st.bar_chart(...)
 # --- BAGIAN 1: ANALISIS SENTIMEN ---
 st.title("📈 Analisis Sentimen Aplikasi Investasi di Play Store")
 st.markdown("Aplikasi ini menggunakan model **Support Vector Machine (SVM)** untuk menganalisis sentimen dari sebuah teks ulasan.")
