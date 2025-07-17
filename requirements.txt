@@ -4,3 +4,4 @@ pandas
 nltk
 sastrawi
 wordcloud
+google-play-scraper
