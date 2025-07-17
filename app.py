@@ -48,7 +48,7 @@ st.markdown("Aplikasi ini menggunakan model **Support Vector Machine (SVM)** unt
 st.write("") # Spasi
 
 # GANTI CONTOH TEKS DI BAWAH INI
-user_input = st.text_area("Masukkan teks di sini:", "aplikasi yang dipakai sering down", height=150)
+user_input = st.text_area("Masukkan teks di sini:", "aplikasi yang dipakai lancar", height=150)
 
 # Tombol untuk prediksi
 if st.button("Analisis Sentimen", use_container_width=True, type="primary"):
