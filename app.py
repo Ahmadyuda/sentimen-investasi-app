@@ -114,7 +114,7 @@ for i, (nama_app, id_app) in enumerate(APPS_INFO.items()):
         all_app_summary_data.append(result)
     except Exception as e:
         st.warning(f"Gagal mengambil data untuk {nama_app}.")
-    progress_bar.progress((i + 1) / total_apps, text=f"Selesai: {nama_app}")
+    progress_bar.progress((i + 1) / total_apps)
 
 status_text.success("Pengambilan data peringkat selesai!")
 
