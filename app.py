@@ -87,7 +87,7 @@ if st.button("Analisis Sentimen", use_container_width=True, type="primary"):
 # GANTI NAMA FILE CSV ANDA DI SINI
 with st.expander("Lihat Detail Data Latih"):
     try:
-        df = pd.read_csv('Data_ulasan_Ranking_1.csv')
+        df = pd.read_csv('Data ulasan Ranking 1.csv')
         st.write(df.head())
         sentimen_counts = df['sentimen'].value_counts()
         st.bar_chart(sentimen_counts)
