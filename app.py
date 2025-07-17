@@ -73,25 +73,42 @@ user_input = st.text_area("Masukkan teks ulasan di sini:", "aplikasi yang dipaka
 
 if st.button("Analisis Sentimen", use_container_width=True, type="primary"):
     if user_input:
-        preprocessed_input = preprocess_text(user_input)
-        vectorized_input = vectorizer.transform([preprocessed_input])
-        prediction = model.predict(vectorized_input)
-        
-        sentiment_map = {0: 'Negatif 👎', 1: 'Netral 😐', 2: 'Positif 👍'}
-        result = sentiment_map.get(prediction[0], 'Tidak diketahui')
+        # 1. Pisahkan input menjadi beberapa baris/komentar dan abaikan baris kosong.
+        comments = [line.strip() for line in user_input.split('\n') if line.strip()]
 
-        st.subheader("Hasil Analisis:")
-        if 'Positif' in result:
-            st.success(f"Sentimen: **{result}**")
-        elif 'Negatif' in result:
-            st.error(f"Sentimen: **{result}**")
+        if comments:
+            results = []
+            # 2. Loop melalui setiap komentar untuk dianalisis
+            for comment in comments:
+                preprocessed_input = preprocess_text(comment)
+                vectorized_input = vectorizer.transform([preprocessed_input])
+                prediction = model.predict(vectorized_input)
+                
+                sentiment_map = {0: 'Negatif 👎', 1: 'Netral 😐', 2: 'Positif 👍'}
+                result_text = sentiment_map.get(prediction[0], 'Tidak diketahui')
+                
+                # Simpan hasil untuk setiap komentar
+                results.append({'Komentar': comment, 'Prediksi Sentimen': result_text})
+
+            # 3. Buat DataFrame dari hasil dan hitung ringkasan sentimen
+            df_results = pd.DataFrame(results)
+            sentiment_counts = df_results['Prediksi Sentimen'].value_counts()
+            
+            st.subheader("📊 Ringkasan Hasil Analisis")
+            
+            # Format ringkasan untuk ditampilkan dengan rapi
+            summary_list = [f"{count} {label.split(' ')[0]}" for label, count in sentiment_counts.items()]
+            summary_text = ", ".join(summary_list)
+            st.success(f"**Hasil: {summary_text}**")
+            
+            # 4. Tampilkan tabel detail analisis per komentar
+            st.subheader("Detail Analisis per Komentar")
+            st.dataframe(df_results, use_container_width=True, hide_index=True)
+
         else:
-            st.warning(f"Sentimen: **{result}**")
-
-        with st.expander("Lihat Teks yang Diproses Model"):
-            st.info(preprocessed_input)
+            st.warning("Mohon masukkan setidaknya satu komentar yang valid.")
     else:
-        st.warning("Mohon masukkan teks terlebih dahulu.")
+        st.warning("Area input masih kosong. Mohon masukkan teks terlebih dahulu.")
 
 
 # Garis pemisah antar bagian
