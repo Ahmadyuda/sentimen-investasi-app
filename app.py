@@ -93,7 +93,7 @@ tab1, tab2, tab3 = st.tabs(["🔎 Analisis Sentimen", "🏆 Peringkat Aplikasi",
 with tab1:
     st.header("Analisis Sentimen Ulasan")
     st.markdown("Masukkan satu atau beberapa ulasan (pisahkan dengan baris baru) untuk dianalisis oleh model **Support Vector Machine (SVM)**.")
-    user_input = st.text_area("Masukkan teks ulasan di sini:", "aplikasi yang dipakai lancar dan mudah digunakan\naplikasi tidak bisa dibuka", height=150)
+    user_input = st.text_area("Masukkan teks ulasan di sini:", "aplikasi yang dipakai lancar dan mudah digunakan\nuang saya hilang", height=150)
 
     if st.button("Analisis Sentimen", use_container_width=True, type="primary"):
         if user_input:
