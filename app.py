@@ -141,7 +141,7 @@ st.write("---")
 with st.expander("Lihat Detail Data Latih yang Digunakan Model"):
     try:
         df_latih = pd.read_csv('Data ulasan Ranking 1.csv')
-        st.write("Contoh Data:", df_latih.head())
+        st.write("Contoh Data:", df_latih.head(1000))
         
         st.subheader("Distribusi Sentimen pada Data Latih")
         sentimen_counts = df_latih['sentimen'].value_counts()
