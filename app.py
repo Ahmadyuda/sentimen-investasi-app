@@ -148,9 +148,6 @@ else:
 # Pastikan DataFrame train_s0 dan library yang dibutuhkan sudah ada
 if 'train_s0' in locals():
 
-    # Instalasi library jika belum ada
-    !pip install wordcloud -q
-
     from wordcloud import WordCloud
     import matplotlib.pyplot as plt
 
