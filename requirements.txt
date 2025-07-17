@@ -5,3 +5,4 @@ nltk
 sastrawi
 wordcloud
 google-play-scraper
+imbalanced-learn
