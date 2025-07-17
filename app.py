@@ -93,3 +93,40 @@ with st.expander("Lihat Detail Data Latih"):
         st.bar_chart(sentimen_counts)
     except FileNotFoundError:
         st.error("File dataset tidak ditemukan.")
+
+# Daftar aplikasi yang dianalisis
+APPS_INFO = {
+    'Ajaib': 'ajaib.co.id',
+    'Bibit': 'com.bibit.bibitid',
+    'Bareksa': 'com.bareksa.app',
+    'IPOT (IndoPremier)': 'com.indopremier.ipot',
+    'Stockbit': 'com.stockbit.android',
+    'Pluang': 'com.EmasDigi',
+    'MOST (Mandiri Sekuritas)': 'com.mandirisekuritas.most',
+    'BIONS (BNI Sekuritas)': 'id.zaisan.android',
+    'RHB Tradesmart ID': 'com.rhbsyariah.tradesmart',
+    'POEMS ID (Phillip Sekuritas)': 'com.phillip.prima',
+    'Mirae HOTS Mobile': 'id.co.miraeassetdaewoo',
+    'Trima (Trimegah Sekuritas)': 'com.trimegah.trima',
+    'MotionTrade (MNC Sekuritas)': 'com.mncsecurities.mnctrade',
+    'CGS-CIMB iTrade': 'id.co.cimbniaga.mobile.android',
+    'Sinarmas Sekuritas': 'com.simas.siminvest',
+    'IDX Mobile': 'id.co.idx.idxmobile',
+    'Nanovest': 'com.nanovest.prod',
+    'Hero Investment': 'kr.co.daou.kiwoomherosg',
+    'InvestASIK (Danareksa)': 'com.danareksa.investasik',
+    'BEST Mobile (BCA Sekuritas)': 'com.bcasekuritas.mybest'
+}
+
+# Letakkan di bagian utama app.py, misalnya di paling bawah
+
+import pandas as pd # Pastikan pandas sudah di-import
+
+st.write("---") # Garis pemisah
+with st.expander("Lihat Daftar Lengkap Aplikasi yang Dianalisis"):
+    # Ubah dictionary menjadi DataFrame pandas
+    df_apps = pd.DataFrame(list(APPS_INFO.items()), columns=['Nama Aplikasi', 'ID Paket Google Play'])
+    st.dataframe(df_apps, use_container_width=True, hide_index=True)
+
+print("\n--- Ranking Aplikasi Investasi Berdasarkan Rating Play Store ---")
+print(df_sorted_summary[['Ranking', 'title', 'score', 'ratings', 'installs', 'developer']].to_markdown(index=False))
