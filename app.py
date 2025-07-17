@@ -128,146 +128,18 @@ with st.expander("Lihat Daftar Lengkap Aplikasi yang Dianalisis"):
     df_apps = pd.DataFrame(list(APPS_INFO.items()), columns=['Nama Aplikasi', 'ID Paket Google Play'])
     st.dataframe(df_apps, use_container_width=True, hide_index=True)
 
-# Pastikan DataFrame 'new_df_copy' dan kolom yang dibutuhkan sudah ada
-if 'new_df_copy' in locals() and all(col in new_df_copy.columns for col in ['sentimen', 'tokens_akhir']):
+df_summary = pd.DataFrame(all_app_summary_data)
+df_summary.dropna(subset=['score'], inplace=True)
+df_sorted_summary = df_summary.sort_values(by=['score', 'ratings'], ascending=[False, False])
+df_sorted_summary['Ranking'] = range(1, len(df_sorted_summary) + 1)
 
-    print("✅ Memfilter data dengan sentimen 'Negatif'...")
-
-    # Filter baris dengan sentimen 'Negatif' dan pilih kolom 'tokens_akhir' & 'sentimen'
-    train_s0 = new_df_copy.loc[new_df_copy['sentimen'] == 'Negatif', ['tokens_akhir', 'sentimen']].copy()
-
-    print("🎉 DataFrame 'train_s0' berhasil dibuat.")
-
+if not df_sorted_summary.empty:
+    ranking_1_app_info = df_sorted_summary.iloc[0].to_dict() # <<< ranking_1_app_info didefinisikan di sini
+    app_id_ranking_1 = ranking_1_app_info['appId'] # Menggunakan 'app_id_ranking_1' (konsisten)
+    title_ranking_1 = ranking_1_app_info['title']   # Menggunakan 'title_ranking_1' (konsisten)
+    print(f"\n--- Aplikasi Ranking 1 Teridentifikasi: '{title_ranking_1}' (ID: {app_id_ranking_1}) ---")
 else:
-    print("❌ Gagal membuat 'train_s0'. Pastikan langkah sebelumnya sudah dijalankan.")
+    print("\nTidak ada aplikasi yang berhasil diambil untuk menentukan Ranking 1. Proses dihentikan.")
 
-# ===================================================================
-#           MEMBUAT WORDCLOUD DARI DATA BERSIH (FIXED)
-# ===================================================================
-
-# Pastikan DataFrame train_s0 dan library yang dibutuhkan sudah ada
-if 'train_s0' in locals():
-
-    from wordcloud import WordCloud
-    import matplotlib.pyplot as plt
-
-    print("✅ DataFrame 'train_s0' ditemukan. Membuat WordCloud...")
-
-    # ================== BAGIAN YANG DIPERBAIKI ==================
-    # 1. Ubah setiap list di 'tokens_akhir' menjadi kalimat (string)
-    #    Ini menciptakan kolom baru yang berisi kalimat bersih.
-    train_s0['text_final'] = train_s0['tokens_akhir'].apply(lambda tokens: ' '.join(tokens))
-
-    # 2. Gabungkan semua kalimat dari kolom 'text_final' yang baru
-    all_text_s0 = ' '.join(train_s0['text_final'])
-    # ==========================================================
-
-    # 3. Buat objek WordCloud dan hasilkan gambarnya
-    #    Karena all_text_s0 sudah bersih, wordcloud akan lebih informatif
-    wordcloud = WordCloud(colormap='Reds', width=1000, height=500, mode='RGBA', background_color='white').generate(all_text_s0)
-
-    # 4. Tampilkan WordCloud menggunakan matplotlib
-    plt.figure(figsize=(15, 8))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.title("WordCloud Sentimen Negatif (dari Teks Bersih)")
-    plt.show()
-
-else:
-    print("❌ DataFrame 'train_s0' tidak ditemukan. Jalankan sel sebelumnya terlebih dahulu.")
-
-# Pastikan DataFrame 'new_df_copy' dan kolom yang dibutuhkan sudah ada
-if 'new_df_copy' in locals() and all(col in new_df_copy.columns for col in ['sentimen', 'tokens_akhir']):
-
-    print("✅ Memfilter data dengan sentimen 'Netral'...")
-
-    # Filter baris dengan sentimen 'Netral' dan pilih kolom 'tokens_akhir' & 'sentimen'
-    train_s1 = new_df_copy.loc[new_df_copy['sentimen'] == 'Netral', ['tokens_akhir', 'sentimen']].copy()
-
-    print("🎉 DataFrame 'train_s1' berhasil dibuat.")
-
-else:
-    print("❌ Gagal membuat 'train_s1'. Pastikan langkah sebelumnya sudah dijalankan.")
-
-# ===================================================================
-#           MEMBUAT WORDCLOUD DARI DATA BERSIH (FIXED)
-# ===================================================================
-
-# Pastikan DataFrame train_s0 dan library yang dibutuhkan sudah ada
-if 'train_s1' in locals():
-
-    from wordcloud import WordCloud
-    import matplotlib.pyplot as plt
-
-    print("✅ DataFrame 'train_s1' ditemukan. Membuat WordCloud...")
-
-    # ================== BAGIAN YANG DIPERBAIKI ==================
-    # 1. Ubah setiap list di 'tokens_akhir' menjadi kalimat (string)
-    #    Ini menciptakan kolom baru yang berisi kalimat bersih.
-    train_s1['text_final'] = train_s1['tokens_akhir'].apply(lambda tokens: ' '.join(tokens))
-
-    # 2. Gabungkan semua kalimat dari kolom 'text_final' yang baru
-    all_text_s1 = ' '.join(train_s1['text_final'])
-    # ==========================================================
-
-    # 3. Buat objek WordCloud dan hasilkan gambarnya
-    #    Karena all_text_s0 sudah bersih, wordcloud akan lebih informatif
-    wordcloud = WordCloud(colormap='Blues', width=1000, height=500, mode='RGBA', background_color='white').generate(all_text_s0)
-
-    # 4. Tampilkan WordCloud menggunakan matplotlib
-    plt.figure(figsize=(15, 8))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.title("WordCloud Sentimen Netral (dari Teks Bersih)")
-    plt.show()
-
-else:
-    print("❌ DataFrame 'train_s1' tidak ditemukan. Jalankan sel sebelumnya terlebih dahulu.")
-
-# Pastikan DataFrame 'new_df_copy' dan kolom yang dibutuhkan sudah ada
-if 'new_df_copy' in locals() and all(col in new_df_copy.columns for col in ['sentimen', 'tokens_akhir']):
-
-    print("✅ Memfilter data dengan sentimen 'Positif'...")
-
-    # Filter baris dengan sentimen 'Positif' dan pilih kolom 'tokens_akhir' & 'sentimen'
-    train_s2 = new_df_copy.loc[new_df_copy['sentimen'] == 'Positif', ['tokens_akhir', 'sentimen']].copy()
-
-    print("🎉 DataFrame 'train_s2' berhasil dibuat.")
-
-else:
-    print("❌ Gagal membuat 'train_s2'. Pastikan langkah sebelumnya sudah dijalankan.")
-
-# ===================================================================
-#           MEMBUAT WORDCLOUD DARI DATA BERSIH (FIXED)
-# ===================================================================
-
-# Pastikan DataFrame train_s0 dan library yang dibutuhkan sudah ada
-if 'train_s2' in locals():
-
-    from wordcloud import WordCloud
-    import matplotlib.pyplot as plt
-
-    print("✅ DataFrame 'train_s2' ditemukan. Membuat WordCloud...")
-
-    # ================== BAGIAN YANG DIPERBAIKI ==================
-    # 1. Ubah setiap list di 'tokens_akhir' menjadi kalimat (string)
-    #    Ini menciptakan kolom baru yang berisi kalimat bersih.
-    train_s2['text_final'] = train_s2['tokens_akhir'].apply(lambda tokens: ' '.join(tokens))
-
-    # 2. Gabungkan semua kalimat dari kolom 'text_final' yang baru
-    all_text_s2 = ' '.join(train_s2['text_final'])
-    # ==========================================================
-
-    # 3. Buat objek WordCloud dan hasilkan gambarnya
-    #    Karena all_text_s0 sudah bersih, wordcloud akan lebih informatif
-    wordcloud = WordCloud(colormap='Greens', width=1000, height=500, mode='RGBA', background_color='white').generate(all_text_s0)
-
-    # 4. Tampilkan WordCloud menggunakan matplotlib
-    plt.figure(figsize=(15, 8))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.title("WordCloud Sentimen Positif (dari Teks Bersih)")
-    plt.show()
-
-else:
-    print("❌ DataFrame 'train_s2' tidak ditemukan. Jalankan sel sebelumnya terlebih dahulu.")
+print("\n--- Ranking Aplikasi Investasi Berdasarkan Rating Play Store ---")
+print(df_sorted_summary[['Ranking', 'title', 'score', 'ratings', 'installs', 'developer']].to_markdown(index=False))
