@@ -142,13 +142,14 @@ with tab2:
 with tab3:
     st.header("Detail Data Latih yang Digunakan Model")
     try:
-        df_latih = pd.read_csv('Data ulasan Ranking 1.csv')
+        df_latih = pd.read_csv('ulasan_kuota_kustom.csv')
         st.dataframe(df_latih)
         
         st.subheader("Distribusi Sentimen pada Data Latih")
         sentimen_counts = df_latih['sentimen'].value_counts()
         st.bar_chart(sentimen_counts)
     except FileNotFoundError:
-        st.error("File 'Data ulasan Ranking 1.csv' tidak ditemukan di repository. Detail data latih tidak dapat ditampilkan.")
+        st.error("File 'ulasan_kuota_kustom.csv' tidak ditemukan di repository. Detail data latih tidak dapat ditampilkan.")
     except KeyError:
         st.error("Kolom 'sentimen' tidak ditemukan di file CSV. Tidak dapat menampilkan distribusi sentimen.")
+
